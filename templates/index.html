@@ -1,45 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mi Aplicación{% endblock %}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        nav {
-            margin: 20px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        ul li {
-            display: inline;
-            margin-right: 10px;
-        }
-        ul li a {
-            text-decoration: none;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-        }
-    </style>
+    <title>Flask App</title>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/proyectos">Proyectos</a></li>
-            <li><a href="/usuarios">Usuarios</a></li>
-            <li><a href="/ayuda">Ayuda</a></li>
-        </ul>
-    </nav>
-
-    <div>
-        {% block content %}{% endblock %}
-    </div>
+    <h1>Welcome to my Flask App!</h1>
 </body>
 </html>

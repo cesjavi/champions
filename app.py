@@ -37,29 +37,38 @@ class Step(db.Model):
     proyecto_id = db.Column(db.Integer, db.ForeignKey('proyecto.id'), nullable=False)  # Relación con Proyecto
     orden = db.Column(db.Integer, nullable=False)  # Orden del paso en el roadmap
 
-@app.route('/proyectos/editar/<int:id>', methods=['GET', 'POST'])
+@app.route('/proyectos/editar/<int:id>', methods=['POST', 'GET'])
 def editar_proyecto(id):
     proyecto = Proyecto.query.get_or_404(id)
-
+    
     if request.method == 'POST':
         proyecto.nombre = request.form['nombre']
         proyecto.problema = request.form['problema']
         
-        # Si se carga una nueva imagen, se guarda
+        # Manejar los pasos del roadmap
+        pasos_descripciones = request.form.getlist('pasos[]')
+        proyecto.pasos.clear()  # Elimina los pasos existentes para actualizarlos
+        
+        for i, descripcion in enumerate(pasos_descripciones):
+            if descripcion:
+                paso = Step(descripcion=descripcion, orden=i, proyecto=proyecto)
+                db.session.add(paso)
+
+        # Manejo de la imagen
         imagen = request.files['imagen']
         if imagen:
             filename = secure_filename(imagen.filename)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             imagen.save(filepath)
             proyecto.imagen = filepath
-        
+
         try:
-            db.session.commit()  # Guardar cambios en la base de datos
+            db.session.commit()
             return redirect('/proyectos')
         except:
-            return 'Hubo un problema al actualizar el proyecto.'
-    
-    return render_template('editar_proyecto.html', proyecto=proyecto)
+            return 'Hubo un problema al editar el proyecto'
+    else:
+        return render_template('editar_proyecto.html', proyecto=proyecto)
 # Modelo de Usuarios
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
