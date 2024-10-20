@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Proyecto{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="mt-4">Agregar un nuevo proyecto</h1>
+
+        <form method="POST" action="/proyectos/agregar" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre">Nombre del Proyecto:</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="problema">Problema que resuelve el Proyecto:</label>
+                <textarea id="problema" name="problema" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="roadmap">Enlace al Roadmap (listado de tareas):</label>
+                <input type="text" id="roadmap" name="roadmap" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="imagen">Imagen del Proyecto (opcional):</label>
+                <input type="file" id="imagen" name="imagen" class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

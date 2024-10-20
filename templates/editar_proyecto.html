@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Proyecto{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="mt-4">Editar Proyecto</h1>
+
+        <form method="POST" action="/proyectos/editar/{{ proyecto.id }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre">Nombre del Proyecto:</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" value="{{ proyecto.nombre }}" required>
+            </div>
+            <div class="form-group">
+                <label for="problema">Problema que resuelve el Proyecto:</label>
+                <textarea id="problema" name="problema" class="form-control" rows="3" required>{{ proyecto.problema }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="roadmap">Pasos del Roadmap:</label>
+                <div id="steps-container">
+                    {% for paso in proyecto.pasos %}
+                        <div class="step-item mb-2">
+                            <input type="text" name="pasos[]" class="form-control" value="{{ paso.descripcion }}" placeholder="Descripción del paso" required>
+                        </div>
+                    {% endfor %}
+                    <input type="text" name="pasos[]" class="form-control mb-2" placeholder="Descripción del paso">
+                </div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="agregarPaso()">Agregar otro paso</button>
+            </div>
+            <div class="form-group">
+                <label for="imagen">Imagen del Proyecto:</label>
+                {% if proyecto.imagen %}
+                    <img src="{{ proyecto.imagen }}" alt="{{ proyecto.nombre }}" class="img-thumbnail" width="150">
+                {% endif %}
+                <input type="file" id="imagen" name="imagen" class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+
+<script>
+// Función para agregar más pasos dinámicamente en el formulario
+function agregarPaso() {
+    var container = document.getElementById('steps-container');
+    var div = document.createElement('div');
+    div.className = 'step-item mb-2';
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'pasos[]';
+    input.className = 'form-control';
+    input.placeholder = 'Descripción del paso';
+    container.appendChild(div);
+    div.appendChild(input);
+}
+</script>
+{% endblock %}

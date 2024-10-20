@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Proyectos{% endblock %}
+
+{% block content %}
+<h1>Proyectos</h1>
+
+<a href="/proyectos/agregar" class="btn btn-primary mb-3">Agregar Proyecto</a>
+
+<div class="row">
+    {% for proyecto in proyectos %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                {% if proyecto.imagen %}
+                    <img src="{{ proyecto.imagen }}" class="card-img-top" alt="{{ proyecto.nombre }}">
+                {% else %}
+                    <img src="/static/default.jpg" class="card-img-top" alt="Imagen por defecto">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ proyecto.nombre }}</h5>
+                    <p class="card-text"><strong>Problema:</strong> {{ proyecto.problema }}</p>
+                    <p class="card-text"><a href="{{ proyecto.roadmap }}" class="btn btn-info">Ver Roadmap</a></p>
+                    <a href="/proyectos/editar/{{ proyecto.id }}" class="btn btn-warning">Editar</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No hay proyectos en la base de datos.</p>
+    {% endfor %}
+</div>
+{% endblock %}
